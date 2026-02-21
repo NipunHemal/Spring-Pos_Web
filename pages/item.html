@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Details</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<!-- Common Navigation -->
+<nav>
+    <a href="../index.html">🏠 Home</a>
+    <a href="./customer.html">👤 Customer</a>
+    <a href="./item.html">📦 Item</a>
+    <a href="./place-order.html">🛒 Place Order</a>
+</nav>
+
+<div class="container">
+<h1>Item Details</h1>
+
+<div class="section">
+    <h2>Add New Item</h2>
+    <form id="itemForm">
+        <div class="form-layout">
+            <div class="form-group">
+                <label for="code">Code:</label>
+                <input type="text" id="code" name="code" placeholder="e.g., I001" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="e.g., Mouse" required>
+            </div>
+        </div>
+        <div class="form-layout">
+            <div class="form-group">
+                <label for="price">Unit Price:</label>
+                <input type="number" id="price" name="price" placeholder="0.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="qty">Quantity:</label>
+                <input type="number" id="qty" name="qty" placeholder="0" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Enter item description" rows="3"></textarea>
+        </div>
+        <div class="action-buttons">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-warning">Update</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+            <button type="reset" class="btn btn-info">Reset</button>
+        </div>
+    </form>
+</div>
+
+<div class="section">
+    <h2>Item List</h2>
+    <table id="itemTable">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+<script src="../js/item.js"></script>
+
+</body>
+</html>
