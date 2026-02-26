@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - POS System</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-light) 0%, rgba(139, 92, 246, 0.1) 100%);
+            padding: 20px 0;
+        }
+
+        .auth-container {
+            margin-top: 100px;
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 480px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="tel"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: rgba(59, 130, 246, 0.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 24px;
+        }
+
+        .password-requirements {
+            background-color: var(--bg-secondary);
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .requirement {
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .requirement-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            background-color: #fee;
+            color: var(--danger);
+        }
+
+        .requirement.met .requirement-icon {
+            background-color: #efe;
+            color: var(--success);
+        }
+
+        .terms-agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+
+        .terms-agreement input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .terms-agreement label {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .terms-agreement a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms-agreement a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-signup {
+            width: 100%;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-signup:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn-signup:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-signup:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #fee;
+            border: 1.5px solid var(--danger);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--danger);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #efe;
+            border: 1.5px solid var(--success);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--success);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 32px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="../../index.html">🏠 Home</a>
+    <a href="../customer.html">👤 Customer</a>
+    <a href="../item.html">📦 Item</a>
+    <a href="../place-order.html">🛒 Place Order</a>
+    <a href="./login.html">🔐 Login</a>
+    <a href="./signup.html">✍️ Sign Up</a>
+</nav>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Create Account</h1>
+        <p>Join POS system to get started</p>
+    </div>
+
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <form id="signupForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input 
+                    type="text" 
+                    id="firstName" 
+                    name="firstName" 
+                    placeholder="John"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input 
+                    type="text" 
+                    id="lastName" 
+                    name="lastName" 
+                    placeholder="Doe"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="john@example.com"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                placeholder="0775123456"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Create a strong password"
+                required
+            >
+            <div class="password-requirements">
+                <div class="requirement" id="req-length">
+                    <span class="requirement-icon">✕</span>
+                    <span>At least 8 characters</span>
+                </div>
+                <div class="requirement" id="req-upper">
+                    <span class="requirement-icon">✕</span>
+                    <span>One uppercase letter</span>
+                </div>
+                <div class="requirement" id="req-lower">
+                    <span class="requirement-icon">✕</span>
+                    <span>One lowercase letter</span>
+                </div>
+                <div class="requirement" id="req-number">
+                    <span class="requirement-icon">✕</span>
+                    <span>One number</span>
+                </div>
+                <div class="requirement" id="req-special">
+                    <span class="requirement-icon">✕</span>
+                    <span>One special character (!@#$%)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input 
+                type="password" 
+                id="confirmPassword" 
+                name="confirmPassword" 
+                placeholder="Confirm your password"
+                required
+            >
+        </div>
+
+        <div class="terms-agreement">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+            <label for="agreeTerms">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </label>
+        </div>
+
+        <button type="submit" class="btn-signup" id="signupBtn">Create Account</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a href="./login.html">Sign in here</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Password strength validation
+        $('#password').on('input', function() {
+            const password = $(this).val();
+            
+            // Length check (at least 8 characters)
+            if (password.length >= 8) {
+                $('#req-length').addClass('met');
+            } else {
+                $('#req-length').removeClass('met');
+            }
+
+            // Uppercase check
+            if (/[A-Z]/.test(password)) {
+                $('#req-upper').addClass('met');
+            } else {
+                $('#req-upper').removeClass('met');
+            }
+
+            // Lowercase check
+            if (/[a-z]/.test(password)) {
+                $('#req-lower').addClass('met');
+            } else {
+                $('#req-lower').removeClass('met');
+            }
+
+            // Number check
+            if (/\d/.test(password)) {
+                $('#req-number').addClass('met');
+            } else {
+                $('#req-number').removeClass('met');
+            }
+
+            // Special character check
+            if (/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                $('#req-special').addClass('met');
+            } else {
+                $('#req-special').removeClass('met');
+            }
+
+            hideMessages();
+        });
+
+        // Form validation and submission
+        $('#signupForm').on('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const firstName = $('#firstName').val().trim();
+            const lastName = $('#lastName').val().trim();
+            const email = $('#email').val().trim();
+            const phone = $('#phone').val().trim();
+            const password = $('#password').val();
+            const confirmPassword = $('#confirmPassword').val();
+            const agreeTerms = $('#agreeTerms').is(':checked');
+
+            // Validation
+            if (!firstName) {
+                showError('Please enter your first name');
+                return;
+            }
+
+            if (!lastName) {
+                showError('Please enter your last name');
+                return;
+            }
+
+            if (!email) {
+                showError('Please enter your email address');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            if (!password) {
+                showError('Please create a password');
+                return;
+            }
+
+            if (password.length < 8) {
+                showError('Password must be at least 8 characters long');
+                return;
+            }
+
+            if (!/[A-Z]/.test(password)) {
+                showError('Password must contain at least one uppercase letter');
+                return;
+            }
+
+            if (!/[a-z]/.test(password)) {
+                showError('Password must contain at least one lowercase letter');
+                return;
+            }
+
+            if (!/\d/.test(password)) {
+                showError('Password must contain at least one number');
+                return;
+            }
+
+            if (!/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                showError('Password must contain at least one special character');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showError('You must agree to the Terms of Service and Privacy Policy');
+                return;
+            }
+
+            // Clear previous messages
+            hideMessages();
+
+            // Simulate API call
+            console.log('Signup attempt:', { 
+                firstName, 
+                lastName, 
+                email, 
+                phone,
+                agreeTerms 
+            });
+
+            // TODO: Replace with actual API call
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/api/auth/signup',
+            //     data: JSON.stringify({ firstName, lastName, email, phone, agreeTerms }),
+            //     contentType: 'application/json',
+            //     success: function(response) {
+            //         showSuccess('Account created successfully! Redirecting to login...');
+            //         setTimeout(() => {
+            //             window.location.href = './login.html';
+            //         }, 1500);
+            //     },
+            //     error: function(error) {
+            //         showError('Registration failed. Please try again.');
+            //     }
+            // });
+
+            // Temporary success message for demonstration
+            showSuccess('Account created successfully! (Demo mode)');
+            setTimeout(() => {
+                window.location.href = './login.html';
+            }, 1500);
+        });
+
+        function showError(message) {
+            $('#errorMessage').text(message).fadeIn();
+        }
+
+        function showSuccess(message) {
+            $('#successMessage').text(message).fadeIn();
+        }
+
+        function hideMessages() {
+            $('#errorMessage').fadeOut();
+            $('#successMessage').fadeOut();
+        }
+
+        // Real-time validation
+        $('#firstName, #lastName, #email, #phone, #confirmPassword').on('change', function() {
+            hideMessages();
+        });
+    });
+</script>
+
+</body>
+</html>

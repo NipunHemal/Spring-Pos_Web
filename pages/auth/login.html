@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - POS System</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-light) 0%, rgba(139, 92, 246, 0.1) 100%);
+        }
+
+        .auth-container {
+            margin-top: 50px;
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: rgba(59, 130, 246, 0.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .forget-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .forget-password:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .signup-link a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #fee;
+            border: 1.5px solid var(--danger);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--danger);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #efe;
+            border: 1.5px solid var(--success);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--success);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        body {
+            padding-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="../../index.html">🏠 Home</a>
+    <a href="../customer.html">👤 Customer</a>
+    <a href="../item.html">📦 Item</a>
+    <a href="../place-order.html">🛒 Place Order</a>
+    <a href="./login.html">🔐 Login</a>
+    <a href="./signup.html">✍️ Sign Up</a>
+</nav>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Welcome Back</h1>
+        <p>Sign in to your POS account</p>
+    </div>
+
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="you@example.com"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Enter your password"
+                required
+            >
+        </div>
+
+        <div class="remember-forgot">
+            <label class="remember-me">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <span>Remember me</span>
+            </label>
+            <a href="./forgot-password.html" class="forget-password">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <div class="signup-link">
+        Don't have an account? <a href="./signup.html">Sign up here</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Form validation and submission
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const email = $('#email').val().trim();
+            const password = $('#password').val();
+            const rememberMe = $('#rememberMe').is(':checked');
+
+            // Basic validation
+            if (!email) {
+                showError('Please enter your email address');
+                return;
+            }
+
+            if (!password) {
+                showError('Please enter your password');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            // Clear previous messages
+            hideMessages();
+
+            // Simulate API call
+            console.log('Login attempt:', { email, password, rememberMe });
+
+            // TODO: Replace with actual API call
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/api/auth/login',
+            //     data: JSON.stringify({ email, password, rememberMe }),
+            //     contentType: 'application/json',
+            //     success: function(response) {
+            //         showSuccess('Login successful! Redirecting...');
+            //         setTimeout(() => {
+            //             window.location.href = '../customer.html';
+            //         }, 1500);
+            //     },
+            //     error: function(error) {
+            //         showError('Invalid email or password');
+            //     }
+            // });
+
+            // Temporary success message for demonstration
+            showSuccess('Login successful! (Demo mode)');
+            setTimeout(() => {
+                window.location.href = '../../index.html';
+            }, 1500);
+        });
+
+        function showError(message) {
+            $('#errorMessage').text(message).fadeIn();
+        }
+
+        function showSuccess(message) {
+            $('#successMessage').text(message).fadeIn();
+        }
+
+        function hideMessages() {
+            $('#errorMessage').fadeOut();
+            $('#successMessage').fadeOut();
+        }
+
+        // Real-time validation
+        $('#email').on('change', function() {
+            hideMessages();
+        });
+
+        $('#password').on('change', function() {
+            hideMessages();
+        });
+    });
+</script>
+
+</body>
+</html>
